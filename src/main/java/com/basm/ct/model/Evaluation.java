@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,6 @@ public class Evaluation {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name ="school_class_id")
-    @JsonIgnore
     private SchoolClass schoolClass;
 
     @ManyToMany
@@ -42,4 +42,23 @@ public class Evaluation {
             inverseJoinColumns = {@JoinColumn(name = "subcompetence_id")}
     )
     private List<SubCompetence> subCompetences;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "evaluation", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EvaluationResult> evaluationResults;
+
+    public void generateEvaluationResults() {
+        for(Student student : schoolClass.getStudents()){
+            for(SubCompetence subCompetence : subCompetences) {
+                addEvaluationResult(new EvaluationResult(subCompetence, student));
+            }
+        }
+    }
+
+    public void addEvaluationResult(EvaluationResult result) {
+        if(evaluationResults == null) {
+            evaluationResults = new ArrayList<>();
+        }
+        evaluationResults.add(result);
+        result.setEvaluation(this);
+    }
 }

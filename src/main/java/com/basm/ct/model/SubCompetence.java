@@ -30,7 +30,6 @@ public class SubCompetence {
     @NotBlank
     private String name;
 
-    @NotBlank
     private String description;
 
     @NotNull
