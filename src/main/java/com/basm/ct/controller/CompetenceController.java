@@ -37,4 +37,9 @@ public class CompetenceController {
         return competenceRepository.findById(competenceId).get();
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value = "/competences/delete/{id}", method =  RequestMethod.POST, produces = "application/json")
+    public void deleteCompetence (@PathVariable("id") final Long competenceId){
+         competenceRepository.deleteById(competenceId);
+    }
 }

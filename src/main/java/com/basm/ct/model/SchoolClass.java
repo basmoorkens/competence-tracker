@@ -30,6 +30,9 @@ public class SchoolClass {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "schoolClass", cascade = CascadeType.ALL)
     private List<Student> students;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "schoolClass", cascade = CascadeType.ALL)
+    private List<Evaluation> evaluations;
+
     public void linkUnlinkedStudents() {
         if(students != null) {
             for (Student student : students) {
