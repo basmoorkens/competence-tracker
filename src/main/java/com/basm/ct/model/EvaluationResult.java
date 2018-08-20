@@ -35,6 +35,7 @@ public class EvaluationResult {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "evaluation_id")
+    @JsonIgnore
     private Evaluation evaluation;
 
     private boolean passed;
