@@ -1,5 +1,6 @@
 package com.basm.ct.model;
 
+import com.basm.ct.model.rest.FillInEvaluationResult;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -41,7 +43,10 @@ public class Evaluation {
             joinColumns = {@JoinColumn(name = "evaluation_id")},
             inverseJoinColumns = {@JoinColumn(name = "subcompetence_id")}
     )
-    private List<SubCompetence> subCompetences;
+    private Set<SubCompetence> subCompetences;
+
+    @Transient
+    private List<FillInEvaluationResult> fillInEvaluationResults;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "evaluation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EvaluationResult> evaluationResults;
