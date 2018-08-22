@@ -27,7 +27,7 @@ public class StudentController {
     public List<StudentViewModel> getStudents (){
         List<StudentViewModel> students = new ArrayList<>();
         for (Student student : studentRepository.findAll()) {
-            StudentViewModel studentViewModel = new StudentViewModel(student.getFirstName(), student.getName(), student.getSchoolClass().getName(), new ArrayList<>());
+            StudentViewModel studentViewModel = new StudentViewModel(student.getId(), student.getFirstName(), student.getName(), student.getSchoolClass().getName(), new ArrayList<>());
             students.add(studentViewModel);
         }
         return students;
@@ -39,7 +39,7 @@ public class StudentController {
         SchoolClass foundClass = schoolClassRepository.findById(schoolClassId).get();
         List<StudentViewModel> students = new ArrayList<>();
         for (Student student : foundClass.getStudents()) {
-            StudentViewModel studentViewModel = new StudentViewModel(student.getFirstName(), student.getName(), student.getSchoolClass().getName(), new ArrayList<>());
+            StudentViewModel studentViewModel = new StudentViewModel(student.getId(), student.getFirstName(), student.getName(), student.getSchoolClass().getName(), new ArrayList<>());
             students.add(studentViewModel);
         }
         return students;
@@ -47,14 +47,14 @@ public class StudentController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value = "/students/{id}", method =  RequestMethod.GET, produces = "application/json")
-    public List<StudentEvaluationResult> getEvaluationResultsForStudent (@PathVariable("id") final Long studentId){
-        List<EvaluationResult> evaluationResults = studentRepository.getEvaluationResultsForStudentId(studentId);
-        List<StudentEvaluationResult> studentEvaluationResults = new ArrayList<>();
-        for(EvaluationResult evaluationResult : evaluationResults) {
-            studentEvaluationResults.add(new StudentEvaluationResult(evaluationResult.getEvaluation().getName(),
+    public StudentViewModel getFullStudentById (@PathVariable("id") final Long studentId){
+        Student student = studentRepository.findById(studentId).get();
+        StudentViewModel studentViewModel = new StudentViewModel(student.getId(), student.getFirstName(), student.getName(), student.getSchoolClass().getName(), new ArrayList<>());
+        for(EvaluationResult evaluationResult : student.getEvaluationResults()) {
+            studentViewModel.getStudentEvaluationResult().add(new StudentEvaluationResult(evaluationResult.getEvaluation().getName(),
                     evaluationResult.getSubCompetence().getName(), evaluationResult.getStudent().getName(),
                     evaluationResult.isPassed(), evaluationResult.getEvaluation().getEvaluationDate()));
         }
-        return studentEvaluationResults;
+        return studentViewModel;
     }
 }

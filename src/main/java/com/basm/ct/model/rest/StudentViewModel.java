@@ -11,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 public class StudentViewModel {
 
+    private Long id;
+
     private String firstName;
 
     private String name;
@@ -19,7 +21,8 @@ public class StudentViewModel {
 
     private List<StudentEvaluationResult> studentEvaluationResult;
 
-    public StudentViewModel(final String firstname, final String name, final String schoolClassName, final List<StudentEvaluationResult> studentEvaluationResults) {
+    public StudentViewModel(final Long id, final String firstname, final String name, final String schoolClassName, final List<StudentEvaluationResult> studentEvaluationResults) {
+        this.id = id;
         this.firstName = firstname;
         this.name = name;
         this.schoolClassName = schoolClassName;
