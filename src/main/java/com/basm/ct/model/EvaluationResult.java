@@ -44,4 +44,5 @@ public class EvaluationResult {
         this.subCompetence = subCompetence;
         this.student = student;
     }
+
 }

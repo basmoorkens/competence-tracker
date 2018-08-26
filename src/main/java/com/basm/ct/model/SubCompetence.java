@@ -35,4 +35,11 @@ public class SubCompetence {
     @NotNull
     private Integer weight;
 
+    public String getParentCompetenceName() {
+        if(competence == null ) {
+           return "";
+        }
+        return competence.getName();
+    }
+
 }
